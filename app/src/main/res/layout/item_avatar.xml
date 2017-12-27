@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lwu.topekalwu.widget.AvatarView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/avatar"
+    android:layout_width="@dimen/size_fab"
+    android:layout_height="@dimen/size_fab"
+    android:layout_gravity="center"
+    android:contentDescription="@string/an_avatar"/>
