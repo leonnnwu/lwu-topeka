@@ -5,6 +5,8 @@ import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewCompat
+import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -18,6 +20,7 @@ import com.lwu.topekalwu.R
 import com.lwu.topekalwu.adapter.AvatarAdapter
 import com.lwu.topekalwu.helper.getPlayer
 import com.lwu.topekalwu.helper.onLayoutChange
+import com.lwu.topekalwu.helper.savePlayer
 import com.lwu.topekalwu.model.Avatar
 import com.lwu.topekalwu.model.Player
 import com.lwu.topekalwu.widget.TextWatcherAdapter
@@ -139,7 +142,17 @@ class SignInFragment : Fragment() {
         firstNameView?.addTextChangedListener(textWatcher)
         lastInitialView?.addTextChangedListener(textWatcher)
         doneFab?.setOnClickListener {
+            if (it.id == R.id.done) {
+                player = Player(firstName = firstNameView?.text?.toString(),
+                        lastInitial = lastInitialView?.text?.toString(),
+                        avatar = selectedAvatar)
+                activity.savePlayer(player)
+                removeDoneFab(Runnable {
 
+                })
+            } else {
+                throw UnsupportedOperationException("The onClick method has not been implemented for ${resources.getResourceEntryName(it.id)}")
+            }
         }
     }
 
@@ -151,6 +164,15 @@ class SignInFragment : Fragment() {
                 selectedAvatar = avatar
             }
         }
+    }
+
+    private fun removeDoneFab(endAction: Runnable) {
+        ViewCompat.animate(doneFab)
+                .scaleX(0f)
+                .scaleY(0f)
+                .setInterpolator(FastOutSlowInInterpolator())
+                .withEndAction(endAction)
+                .start()
     }
 
     companion object {
